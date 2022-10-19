@@ -7,8 +7,9 @@
 <h1>Startseite Seite</h1>
 
 <?php
+  $postsRepository = new App\Post\PostsRepository();
   #Die Funktion aus database.php wird ausgeführt. Diese Funktion beinhaltet ein MySQL Befehl zum holen der Daten aus der Datenbank
-  $torte = tabelleAusgeben();
+  $torte = $postsRepository->tabelleAusgeben();
 ?>
 
 <ul>

@@ -1,75 +1,34 @@
 <!-- Verknüpfung mit database.php (Verbindung zur Datenbank mit PDO) -->
 <!-- ../ bedeutet eine Ebene im Verzeichnis höher gehen, um die Datei zu finden -->
-<?php include("../database.php") ?>
-
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Startseite</title>
+<?php include("../database.php"); ?>
+<?php include("elements/header.php"); ?>
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<h1>Startseite Seite</h1>
 
-  </head>
-  <body>
-    <!-- Bootstrap Navigation -->
-    <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navigationsmenü</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Gästebuch</a>
-        </li>
-      </ul>
-    </div>
-          <a class="navbar-brand" href="index.php">Blog</a>
-        </div>
-    </nav>
+<?php
+  #Die Funktion aus database.php wird ausgeführt. Diese Funktion beinhaltet ein MySQL Befehl zum holen der Daten aus der Datenbank
+  $torte = tabelleAusgeben();
+?>
 
-    <br /><br />
-
-    <div class="container">
-
-      <h1>Startseite des Blogs</h1>
-      <p class="lead">Das hier ist die Startseite des Blogs.</p>
-
-      <?php 
-      # Speicher den Zugriff auf Datenbankinhalte in die Variable $torte
-      # PDO wird hier erläutert: https://www.php-einfach.de/mysql-tutorial/crashkurs-pdo/
-      $torte = fetch_posts(); 
-      ?>
-       
-      <ul>
-        <?php
-          # Für jeden Datenbankeintrag, in $Torte gespeicher, speichere sie als $banane 
-          # Anstatt {} kann man : benutzen. Sieht sauberer aus, allerdings muss man die foreach mit "endforeach" beenden
-          foreach ($torte AS $banane): ?>
-           <li> 
-           <?php echo "{$banane["title"]}"; ?>
-          </li>
-         <?php endforeach ?>
-      </ul>
-    </div>
+<ul>
+  <?php
+  #FOREACH gibt die Liste mit den Titeln aus der Datenbank aus
+  # $torte greift über die Funktion tabelleAusgeben() und pdo auf die Datenbank zu und speicher je 1 Wert von Tabelle "posts" in $torte
+  # die foreach Schleife speichert für jeden Wert aus der Datenbank den Wert in die Variable $banane hinein
+  foreach ($torte as $banane) : ?>
+    <li>
+      <!--VORHER <a href="post.php?title=?php echo $banane["title"];?>"> -->
+      <!-- NACHER: statt TITEL wird nun ID im URL -->
+      <a href="post.php?id=<?php echo $banane["id"];?>">
+        <?php echo "{$banane["title"]}"; ?> 
+      </a>  
+    </li>
+  <?php endforeach; ?>
+</ul>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-  </body>
-</html>
+<?php include("elements/footer.php"); ?>
+
+
